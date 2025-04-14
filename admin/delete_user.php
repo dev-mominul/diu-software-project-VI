@@ -14,8 +14,9 @@ if (isset($_GET['id'])) {
     $sql = "DELETE FROM users WHERE id = $user_id";
 
     if ($conn->query($sql) === TRUE) {
-        echo "User deleted successfully!";
-        header("Location: manage_users.php");  // Redirect to user management page
+        // Redirect to manage_users.php with a success message (query parameter)
+        header("Location: manage_users.php?deleted=1");
+        exit(); // Make sure to stop script execution after redirection
     } else {
         echo "Error: " . $conn->error;
     }
@@ -23,3 +24,4 @@ if (isset($_GET['id'])) {
 
 $conn->close();
 ?>
+
