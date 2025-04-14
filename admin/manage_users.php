@@ -9,23 +9,12 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'admin') {
     exit();
 }
 
-// Delete user
-if (isset($_GET['delete'])) {
-    $user_id = $_GET['delete'];
-    $sql = "DELETE FROM users WHERE id = $user_id";
-
-    if ($conn->query($sql) === TRUE) {
-        show_success_message("The user has been deleted successfully.");
-        header("Location: manage_users.php");  // Redirect to user management page
-        exit();  // Make sure the script stops executing after redirect
-    } else {
-        echo "Error: " . $conn->error;
-    }
-}
-
 // Fetch all users from the database
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
+
+// Check for user deletion success message
+$task_deleted = isset($_GET['deleted']) && $_GET['deleted'] == 1;
 ?>
 
 <!DOCTYPE html>
@@ -38,23 +27,30 @@ $result = $conn->query($sql);
 </head>
 <body class="bg-gray-100">
 
-    <!-- Include Navbar -->
-    <?php include('../includes/navbar.php'); ?>
+    <!-- Page Title -->
+    <header class="text-center pt-16 pb-8">
+        <h1 class="text-3xl font-bold">Manage Users</h1>
+    </header>
 
     <!-- Main Content -->
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-semibold text-center text-gray-700 mb-6">Manage Users</h1>
+    <div class="container mx-auto p-6 max-w-screen-xl">
+        <!-- Success Message for User Deletion -->
+        <?php if ($task_deleted): ?>
+            <div class="bg-green-100 text-green-700 p-4 rounded-md mb-6">
+                <p><i class="fas fa-check-circle mr-2"></i> The user has been deleted successfully!</p>
+            </div>
+        <?php endif; ?>
 
         <!-- User Table -->
         <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-            <table class="min-w-full table-auto">
-                <thead class="bg-gray-800 text-white">
+            <table class="min-w-full table-auto border-collapse">
+                <thead class="bg-blue-600 text-white">
                     <tr>
-                        <th class="py-2 px-4">User ID</th>
-                        <th class="py-2 px-4">Username</th>
-                        <th class="py-2 px-4">Email</th>
-                        <th class="py-2 px-4">Role</th>
-                        <th class="py-2 px-4">Actions</th>
+                        <th class="py-3 px-6 border border-gray-300 text-left">User ID</th>
+                        <th class="py-3 px-6 border border-gray-300 text-left">Username</th>
+                        <th class="py-3 px-6 border border-gray-300 text-left">Email</th>
+                        <th class="py-3 px-6 border border-gray-300 text-left">Role</th>
+                        <th class="py-3 px-6 border border-gray-300 text-left">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,11 +59,11 @@ $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
                             echo "<tr class='border-t'>
-                                    <td class='py-3 px-4 text-center'>{$row['id']}</td>
-                                    <td class='py-3 px-4'>{$row['username']}</td>
-                                    <td class='py-3 px-4'>{$row['email']}</td>
-                                    <td class='py-3 px-4 text-center'>{$row['role']}</td>
-                                    <td class='py-3 px-4 text-center'>
+                                    <td class='py-3 px-6 text-left border border-gray-300'>{$row['id']}</td>
+                                    <td class='py-3 px-6 text-left border border-gray-300'>{$row['username']}</td>
+                                    <td class='py-3 px-6 text-left border border-gray-300'>{$row['email']}</td>
+                                    <td class='py-3 px-6 text-left border border-gray-300'>{$row['role']}</td>
+                                    <td class='py-3 px-6 text-left border border-gray-300'>
                                         <a href='edit_user.php?id={$row['id']}' class='text-blue-600 hover:text-blue-800'>Edit</a> | 
                                         <a href='delete_user.php?delete={$row['id']}' class='text-red-600 hover:text-red-800'>Delete</a>
                                     </td>
@@ -82,8 +78,6 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <!-- Include Footer -->
-    <?php include('../includes/footer.php'); ?>
 
 </body>
 </html>
