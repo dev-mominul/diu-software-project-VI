@@ -1,6 +1,18 @@
 <?php
 session_start();  // Start the session
 
+// Check if the user is already logged in
+if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
+    // Redirect based on user role
+    if ($_SESSION['role'] == 'admin') {
+        header("Location: admin/dashboard.php");  // Redirect admin to the dashboard
+        exit();
+    } else {
+        header("Location: user/index.php");  // Redirect user to their task list (or other area)
+        exit();
+    }
+}
+
 include('includes/db.php');
 
 // Check if form is submitted
@@ -22,15 +34,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Redirect to the appropriate page based on the user role
             if ($_SESSION['role'] == 'admin') {
-                header("Location: admin_dashboard.php");  // Redirect admin to the dashboard
+                header("Location: admin/dashboard.php");  // Redirect admin to the dashboard
+                exit();
             } else {
-                header("Location: index.php");  // Redirect user to the task list page
+                header("Location: user/index.php");  // Redirect user to their task list (or other area)
+                exit();
             }
         } else {
-            echo "Incorrect password!";
+            $error_message = "Incorrect password!";
         }
     } else {
-        echo "User not found!";
+        $error_message = "User not found!";
     }
 }
 
@@ -55,6 +69,12 @@ $conn->close();
         <h1 class="text-3xl font-semibold text-center text-gray-700 mb-6">Login</h1>
 
         <div class="max-w-lg mx-auto bg-white p-8 shadow-lg rounded-lg">
+            <?php if (isset($error_message)): ?>
+                <div class="bg-red-100 text-red-700 p-4 rounded-md mb-6">
+                    <p><?= $error_message ?></p>
+                </div>
+            <?php endif; ?>
+
             <form action="login.php" method="POST">
                 <div class="mb-4">
                     <label for="username" class="block text-gray-700">Username</label>

@@ -1,4 +1,3 @@
-<!-- admin/dashboard.php -->
 <?php
 session_start();
 include('../includes/db.php');
@@ -54,16 +53,6 @@ $users_result = $conn->query($users_query);
                 <h2 class="text-xl font-semibold text-gray-800">Add New Task</h2>
                 <a href="add_task.php" class="text-blue-600 hover:text-blue-800">Add Task</a>
             </div>
-        </div>
-
-        <!-- Admin Actions -->
-        <div class="mt-8">
-            <h2 class="text-2xl font-semibold text-gray-800">Actions</h2>
-            <ul class="list-disc ml-6 mt-4">
-                <li><a href="manage_tasks.php" class="text-blue-600 hover:text-blue-800">View All Tasks</a></li>
-                <li><a href="manage_users.php" class="text-blue-600 hover:text-blue-800">View All Users</a></li>
-                <li><a href="add_task.php" class="text-blue-600 hover:text-blue-800">Create New Task</a></li>
-            </ul>
         </div>
     </div>
 
