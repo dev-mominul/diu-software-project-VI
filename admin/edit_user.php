@@ -28,9 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $role = $_POST['role'];
+    $name = $_POST['name'];  // Get the name from the form
 
     // Update user details in the database
-    $update_sql = "UPDATE users SET username='$username', email='$email', role='$role' WHERE id=$user_id";
+    $update_sql = "UPDATE users SET username='$username', email='$email', role='$role', name='$name' WHERE id=$user_id";
 
     if ($conn->query($update_sql) === TRUE) {
         $success_message = "The user has been successfully updated.";
@@ -76,6 +77,12 @@ $conn->close();
         <!-- Edit User Form -->
         <div class="max-w-lg mx-auto bg-white p-8 shadow-lg rounded-lg">
             <form action="edit_user.php?id=<?= $user['id'] ?>" method="POST">
+                <!-- Name -->
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Full Name</label>
+                    <input type="text" name="name" value="<?= $user['name'] ?>" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
+                </div>
+
                 <!-- Username -->
                 <div class="mb-4">
                     <label for="username" class="block text-gray-700">Username</label>
@@ -104,9 +111,6 @@ $conn->close();
             </form>
         </div>
     </div>
-
-    <!-- Include Footer -->
-    <?php include('../includes/footer.php'); ?>
 
 </body>
 </html>
