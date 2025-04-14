@@ -27,20 +27,43 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Register</h1>
-    <form action="register.php" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required><br>
+<body class="bg-gray-100">
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" required><br>
+    <!-- Include Navbar -->
+    <?php include('includes/navbar.php'); ?>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br>
+    <!-- Main Content -->
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-semibold text-center text-gray-700 mb-6">Register</h1>
 
-        <button type="submit">Register</button>
-    </form>
+        <div class="max-w-lg mx-auto bg-white p-8 shadow-lg rounded-lg">
+            <form action="register.php" method="POST">
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700">Username</label>
+                    <input type="text" name="username" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700">Email</label>
+                    <input type="email" name="email" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700">Password</label>
+                    <input type="password" name="password" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include Footer -->
+    <?php include('includes/footer.php'); ?>
+
 </body>
 </html>

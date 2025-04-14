@@ -1,11 +1,7 @@
 <!-- includes/navbar.php -->
-<?php
-session_start();
-?>
-
-<nav class="bg-blue-600 p-4">
+<nav class="bg-blue-600 p-4 shadow-md">
     <div class="container mx-auto flex justify-between items-center">
-        <a href="index.php" class="text-white text-xl font-bold">Task Manager</a>
+        <a href="index.php" class="text-white text-2xl font-bold hover:text-gray-200">Task Manager</a>
         <div>
             <?php if (isset($_SESSION['username'])): ?>
                 <!-- Logged-in navbar -->
