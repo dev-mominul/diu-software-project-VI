@@ -11,13 +11,13 @@ if (!isset($_SESSION['username'])) {
 // Fetch tasks categorized by status
 $user_id = $_SESSION['user_id'];
 
-// Upcoming Tasks (Pending status)
-$sql_upcoming = "SELECT * FROM tasks WHERE user_id = $user_id AND status = 'pending' ORDER BY due_date ASC";
-$upcoming_result = $conn->query($sql_upcoming);
-
 // In-Progress Tasks
 $sql_in_progress = "SELECT * FROM tasks WHERE user_id = $user_id AND status = 'in-progress' ORDER BY due_date ASC";
 $in_progress_result = $conn->query($sql_in_progress);
+
+// Upcoming Tasks (Pending status)
+$sql_upcoming = "SELECT * FROM tasks WHERE user_id = $user_id AND status = 'pending' ORDER BY due_date ASC";
+$upcoming_result = $conn->query($sql_upcoming);
 
 // Completed Tasks
 $sql_completed = "SELECT * FROM tasks WHERE user_id = $user_id AND status = 'completed' ORDER BY due_date ASC";
@@ -41,69 +41,83 @@ $completed_result = $conn->query($sql_completed);
 
     <!-- Main Content -->
     <div class="container mx-auto p-6 max-w-screen-xl">
-        <h1 class="text-3xl font-semibold text-center text-gray-700 mb-6">Welcome to Your Dashboard, <?= $_SESSION['username']; ?></h1>
+        <h1 class="text-3xl font-semibold text-center text-gray-700 mb-10">User Dashboard</h1> <!-- Added spacing below title -->
 
-        <!-- Upcoming Tasks Section -->
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Upcoming Tasks (Pending)</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <?php if ($upcoming_result->num_rows > 0): ?>
-                <?php while ($task = $upcoming_result->fetch_assoc()): ?>
-                    <div class="bg-white p-6 shadow-lg rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-clock text-yellow-500 mr-3"></i>
-                            <h2 class="text-xl font-semibold text-gray-800"><?= $task['description']; ?></h2>
-                        </div>
-                        <p class="text-gray-600">Due: <?= $task['due_date']; ?></p>
-                        <a href="edit_task.php?id=<?= $task['id']; ?>" class="text-blue-600 hover:text-blue-800">Edit Task</a>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <div class="bg-white p-6 shadow-lg rounded-lg text-center">
-                    <p class="text-gray-600">No upcoming tasks.</p>
-                </div>
-            <?php endif; ?>
+        <!-- Horizontal Task Categories -->
+        <div class="flex justify-between mb-10"> <!-- Added more spacing here -->
+            <div class="w-full text-center">
+                <h2 class="text-xl font-semibold text-gray-700 flex items-center justify-center">
+                    <i class="fas fa-spinner text-orange-500 mr-2"></i> In-Progress
+                </h2>
+            </div>
+            <div class="w-full text-center">
+                <h2 class="text-xl font-semibold text-gray-700 flex items-center justify-center">
+                    <i class="fas fa-clock text-blue-500 mr-2"></i> Upcoming
+                </h2>
+            </div>
+            <div class="w-full text-center">
+                <h2 class="text-xl font-semibold text-gray-700 flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i> Completed
+                </h2>
+            </div>
         </div>
 
-        <!-- In-progress Tasks Section -->
-        <h2 class="text-2xl font-semibold text-gray-700 mt-10 mb-4">In-Progress Tasks</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <?php if ($in_progress_result->num_rows > 0): ?>
-                <?php while ($task = $in_progress_result->fetch_assoc()): ?>
-                    <div class="bg-white p-6 shadow-lg rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-spinner text-blue-500 animate-spin mr-3"></i>
-                            <h2 class="text-xl font-semibold text-gray-800"><?= $task['description']; ?></h2>
+        <!-- Task Lists -->
+        <div class="flex space-x-6">
+            <!-- In-progress Tasks -->
+            <div class="w-1/3 bg-white p-6 shadow-lg rounded-lg">
+                <?php if ($in_progress_result->num_rows > 0): ?>
+                    <?php while ($task = $in_progress_result->fetch_assoc()): ?>
+                        <div class="mb-6 border-b pb-6">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['description']; ?></h3>
+                            </div>
+                            <p class="text-gray-600">Due: <?= $task['due_date']; ?></p>
+                            <a href="edit_task.php?id=<?= $task['id']; ?>" class="text-blue-600 hover:text-blue-800 mt-2 block">Edit Task</a>
                         </div>
-                        <p class="text-gray-600">Due: <?= $task['due_date']; ?></p>
-                        <a href="edit_task.php?id=<?= $task['id']; ?>" class="text-blue-600 hover:text-blue-800">Edit Task</a>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <div class="bg-white p-6 shadow-lg rounded-lg text-center">
-                    <p class="text-gray-600">No in-progress tasks.</p>
-                </div>
-            <?php endif; ?>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p class="text-center text-gray-600">No in-progress tasks.</p>
+                <?php endif; ?>
+            </div>
+
+            <!-- Upcoming Tasks -->
+            <div class="w-1/3 bg-white p-6 shadow-lg rounded-lg">
+                <?php if ($upcoming_result->num_rows > 0): ?>
+                    <?php while ($task = $upcoming_result->fetch_assoc()): ?>
+                        <div class="mb-6 border-b pb-6">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['description']; ?></h3>
+                            </div>
+                            <p class="text-gray-600">Due: <?= $task['due_date']; ?></p>
+                            <a href="edit_task.php?id=<?= $task['id']; ?>" class="text-blue-600 hover:text-blue-800 mt-2 block">Edit Task</a>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p class="text-center text-gray-600">No upcoming tasks.</p>
+                <?php endif; ?>
+            </div>
+
+            <!-- Completed Tasks -->
+            <div class="w-1/3 bg-white p-6 shadow-lg rounded-lg">
+                <?php if ($completed_result->num_rows > 0): ?>
+                    <?php while ($task = $completed_result->fetch_assoc()): ?>
+                        <div class="mb-6">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['description']; ?></h3>
+                            </div>
+                            <p class="text-gray-600">Completed on: <?= $task['due_date']; ?></p>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p class="text-center text-gray-600">No completed tasks.</p>
+                <?php endif; ?>
+            </div>
         </div>
 
-        <!-- Completed Tasks Section -->
-        <h2 class="text-2xl font-semibold text-gray-700 mt-10 mb-4">Completed Tasks</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <?php if ($completed_result->num_rows > 0): ?>
-                <?php while ($task = $completed_result->fetch_assoc()): ?>
-                    <div class="bg-white p-6 shadow-lg rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                            <h2 class="text-xl font-semibold text-gray-800"><?= $task['description']; ?></h2>
-                        </div>
-                        <p class="text-gray-600">Completed on: <?= $task['due_date']; ?></p>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <div class="bg-white p-6 shadow-lg rounded-lg text-center">
-                    <p class="text-gray-600">No completed tasks.</p>
-                </div>
-            <?php endif; ?>
-        </div>
     </div>
 
 </body>
