@@ -8,7 +8,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
         header("Location: admin/dashboard.php");  // Redirect admin to the dashboard
         exit();
     } else {
-        header("Location: user/index.php");  // Redirect user to their task list (or other area)
+        header("Location: user/dashboard.php");  // Redirect user to the dashboard
         exit();
     }
 }
@@ -20,9 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Query to check if user exists and password matches
-    $sql = "SELECT * FROM users WHERE username='$username'";
-    $result = $conn->query($sql);
+    // Prepared statement to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -37,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: admin/dashboard.php");  // Redirect admin to the dashboard
                 exit();
             } else {
-                header("Location: user/index.php");  // Redirect user to their task list (or other area)
+                header("Location: user/dashboard.php");  // Redirect user to the dashboard
                 exit();
             }
         } else {
