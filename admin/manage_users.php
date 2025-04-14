@@ -9,7 +9,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'admin') {
     exit();
 }
 
-// Fetch all users from the database
+// Fetch all users from the database including the 'name' field (Full Name)
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
 
@@ -46,8 +46,8 @@ $task_deleted = isset($_GET['deleted']) && $_GET['deleted'] == 1;
             <table class="min-w-full table-auto border-collapse">
                 <thead class="bg-blue-600 text-white">
                     <tr>
-                        <th class="py-3 px-6 border border-gray-300 text-left">User ID</th>
                         <th class="py-3 px-6 border border-gray-300 text-left">Username</th>
+                        <th class="py-3 px-6 border border-gray-300 text-left">Full Name</th>
                         <th class="py-3 px-6 border border-gray-300 text-left">Email</th>
                         <th class="py-3 px-6 border border-gray-300 text-left">Role</th>
                         <th class="py-3 px-6 border border-gray-300 text-left">Actions</th>
@@ -59,8 +59,8 @@ $task_deleted = isset($_GET['deleted']) && $_GET['deleted'] == 1;
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
                             echo "<tr class='border-t'>
-                                    <td class='py-3 px-6 text-left border border-gray-300'>{$row['id']}</td>
                                     <td class='py-3 px-6 text-left border border-gray-300'>{$row['username']}</td>
+                                    <td class='py-3 px-6 text-left border border-gray-300'>{$row['name']}</td> <!-- Full Name -->
                                     <td class='py-3 px-6 text-left border border-gray-300'>{$row['email']}</td>
                                     <td class='py-3 px-6 text-left border border-gray-300'>{$row['role']}</td>
                                     <td class='py-3 px-6 text-left border border-gray-300'>
@@ -77,7 +77,6 @@ $task_deleted = isset($_GET['deleted']) && $_GET['deleted'] == 1;
             </table>
         </div>
     </div>
-
 
 </body>
 </html>
