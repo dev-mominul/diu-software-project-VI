@@ -41,10 +41,13 @@ $completed_result = $conn->query($sql_completed);
 
     <!-- Main Content -->
     <div class="container mx-auto p-6 max-w-screen-xl">
-        <h1 class="text-3xl font-semibold text-center text-gray-700 mb-10">User Dashboard</h1> <!-- Adjusted spacing below title -->
+        <!-- Page Title -->
+        <header class="text-center pt-10 pb-16">
+            <h1 class="text-3xl font-bold text-gray-700">User Dashboard</h1> <!-- Title with appropriate spacing -->
+        </header>
 
         <!-- Horizontal Task Categories -->
-        <div class="flex justify-between mb-10"> <!-- Added more spacing here -->
+        <div class="flex justify-between mb-12"> <!-- Increased bottom margin for better separation -->
             <div class="w-full text-center">
                 <h2 class="text-xl font-semibold text-gray-700 flex items-center justify-center">
                     <i class="fas fa-spinner text-orange-500 mr-2"></i> In-Progress
@@ -71,7 +74,7 @@ $completed_result = $conn->query($sql_completed);
                         <div class="mb-6 border-b pb-6">
                             <div class="flex items-center space-x-3">
                                 <span class="w-3 h-3 rounded-full bg-orange-500"></span>
-                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['title']; ?></h3> <!-- Changed to display task title -->
+                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['title']; ?></h3> <!-- Task Title -->
                             </div>
                             <p class="text-gray-600">Due: <?= $task['due_date']; ?></p>
                             <a href="edit_task.php?id=<?= $task['id']; ?>" class="text-blue-600 hover:text-blue-800 mt-2 block">Edit Task</a>
@@ -89,7 +92,7 @@ $completed_result = $conn->query($sql_completed);
                         <div class="mb-6 border-b pb-6">
                             <div class="flex items-center space-x-3">
                                 <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['title']; ?></h3> <!-- Changed to display task title -->
+                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['title']; ?></h3> <!-- Task Title -->
                             </div>
                             <p class="text-gray-600">Due: <?= $task['due_date']; ?></p>
                             <a href="edit_task.php?id=<?= $task['id']; ?>" class="text-blue-600 hover:text-blue-800 mt-2 block">Edit Task</a>
@@ -107,7 +110,7 @@ $completed_result = $conn->query($sql_completed);
                         <div class="mb-6">
                             <div class="flex items-center space-x-3">
                                 <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['title']; ?></h3> <!-- Changed to display task title -->
+                                <h3 class="text-lg font-semibold text-gray-800"><?= $task['title']; ?></h3> <!-- Task Title -->
                             </div>
                             <p class="text-gray-600">Completed on: <?= $task['due_date']; ?></p>
                         </div>

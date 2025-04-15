@@ -9,14 +9,14 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'admin') {
 }
 
 // Delete user
-if (isset($_GET['id'])) {
-    $user_id = $_GET['id'];
+if (isset($_GET['delete'])) {
+    $user_id = $_GET['delete'];
     $sql = "DELETE FROM users WHERE id = $user_id";
 
     if ($conn->query($sql) === TRUE) {
-        // Redirect to manage_users.php with a success message (query parameter)
+        // Redirect to manage_users.php with success message
         header("Location: manage_users.php?deleted=1");
-        exit(); // Make sure to stop script execution after redirection
+        exit();  // Stop script execution after redirect
     } else {
         echo "Error: " . $conn->error;
     }
@@ -24,4 +24,3 @@ if (isset($_GET['id'])) {
 
 $conn->close();
 ?>
-

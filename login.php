@@ -61,42 +61,41 @@ $conn->close();
     <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-
-    <!-- Include Navbar -->
-    <?php include('includes/navbar.php'); ?>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
     <!-- Main Content -->
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-semibold text-center text-gray-700 mb-6">Login</h1>
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Login</h2>
 
-        <div class="max-w-lg mx-auto bg-white p-8 shadow-lg rounded-lg">
-            <?php if (isset($error_message)): ?>
-                <div class="bg-red-100 text-red-700 p-4 rounded-md mb-6">
-                    <p><?= $error_message ?></p>
-                </div>
-            <?php endif; ?>
+        <!-- Success/Error Messages -->
+        <?php if (isset($error_message)): ?>
+            <div class="bg-red-100 text-red-700 p-4 rounded-md mb-6">
+                <p><strong>Error:</strong> <?= $error_message ?></p>
+            </div>
+        <?php endif; ?>
 
-            <form action="login.php" method="POST">
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700">Username</label>
-                    <input type="text" name="username" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
-                </div>
+        <!-- Login Form -->
+        <form action="login.php" method="POST">
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" name="username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
+            </div>
 
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700">Password</label>
-                    <input type="password" name="password" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
-                </div>
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
+            </div>
 
-                <div class="text-center">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">Login</button>
-                </div>
-            </form>
+            <div class="text-center">
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Login</button>
+            </div>
+        </form>
+
+        <!-- Back to Site Link -->
+        <div class="mt-4 text-center">
+            <a href="./index.php" class="text-blue-500 hover:underline">Back to home</a>
         </div>
     </div>
-
-    <!-- Include Footer -->
-    <?php include('includes/footer.php'); ?>
 
 </body>
 </html>

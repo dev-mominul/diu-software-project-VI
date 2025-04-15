@@ -1,9 +1,13 @@
 <?php
+// Start the session at the top of the page
+session_start();
+
+// Include database connection
 include('includes/db.php');
 
 // Register a new user
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $full_name = $_POST['full_name'];
+    $name = $_POST['name'];  // Full Name
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);  // Hash the password
@@ -21,13 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error_message = "Username or Email is already taken. Please choose a different one.";
     } else {
         // If no duplicate found, insert the new user into the database
-        $sql = "INSERT INTO users (full_name, username, email, password, role) VALUES ('$full_name', '$username', '$email', '$password', '$role')";
+        $sql = "INSERT INTO users (name, username, email, password, role) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssss", $name, $username, $email, $password, $role);
 
-        if ($conn->query($sql) === TRUE) {
-            echo "Registration successful!";
-            header("Location: login.php");  // Redirect to login page
+        if ($stmt->execute()) {
+            // Registration successful, store user info in session
+            $_SESSION['username'] = $username;
+            $_SESSION['role'] = $role;
+            $_SESSION['user_id'] = $conn->insert_id; // Store user ID in session
+
+            // Redirect to user dashboard
+            header("Location: user/dashboard.php");
+            exit();  // Ensure no further code is executed after the redirection
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            $error_message = "Error: " . $stmt->error;
         }
     }
 }
@@ -67,8 +79,8 @@ $conn->close();
             <form action="register.php" method="POST">
                 <!-- Full Name Field -->
                 <div class="mb-4">
-                    <label for="full_name" class="block text-gray-700">Full Name</label>
-                    <input type="text" name="full_name" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
+                    <label for="name" class="block text-gray-700">Full Name</label>
+                    <input type="text" name="name" class="w-full p-3 mt-2 border border-gray-300 rounded" required>
                 </div>
 
                 <!-- Username Field -->
@@ -96,6 +108,7 @@ $conn->close();
             </form>
         </div>
     </div>
+
 
 </body>
 </html>

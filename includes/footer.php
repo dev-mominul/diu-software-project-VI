@@ -1,4 +1,9 @@
-<!-- includes/footer.php -->
-<footer class="bg-blue-600 p-4 text-white text-center mt-8">
-    <p>&copy; 2025 Task Management System | Designed by Your Name</p>
+<!-- footer.php -->
+<footer class="bg-gray-50 text-gray-400 py-4 mt-0">
+    <div class="text-center">
+        <p class="text-sm">
+            &copy; <?= date("Y"); ?> Mominul Islam | DIU ID 192-15-13156. <br>
+            This project is presented as part of CSE336: Software Project VI, Dept. of CSE, DIU.
+        </p>
+    </div>
 </footer>

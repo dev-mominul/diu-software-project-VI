@@ -1,9 +1,9 @@
 <?php
 // includes/db.php
 $servername = "localhost";
-$username = "root";  // Default XAMPP username
-$password = "";      // Default XAMPP password is empty
-$dbname = "task_management";  // Updated database name
+$username = "mominul_task_management";  // Default XAMPP username
+$password = "Ss@350930";      // Default XAMPP password is empty
+$dbname = "mominul_task_management";  // Updated database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
